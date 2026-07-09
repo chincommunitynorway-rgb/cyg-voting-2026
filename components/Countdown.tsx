@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 
 export default function Countdown() {
-  const targetDate = new Date("2026-07-16T12:00:00").getTime();
+  // Voting ends: 16 July 2026 at 21:00 (Norwegian summer time)
+  const targetDate = new Date("2026-07-16T21:00:00+02:00").getTime();
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -13,12 +14,17 @@ export default function Countdown() {
   });
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const updateCountdown = () => {
       const now = new Date().getTime();
       const distance = targetDate - now;
 
       if (distance <= 0) {
-        clearInterval(timer);
+        setTimeLeft({
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        });
         return;
       }
 
@@ -36,28 +42,28 @@ export default function Countdown() {
           (distance % (1000 * 60)) / 1000
         ),
       });
-    }, 1000);
+    };
+
+    updateCountdown();
+
+    const timer = setInterval(updateCountdown, 1000);
 
     return () => clearInterval(timer);
   }, []);
 
   return (
     <section className="w-full">
-
-      <div className="text-center mb-10">
-
-        <p className="uppercase tracking-[8px] text-red-400 text-sm mb-3 font-semibold">
+      <div className="mb-8 text-center sm:mb-10">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[4px] text-red-400 sm:mb-3 sm:text-sm sm:tracking-[8px]">
           Voting closes in
         </p>
 
-        <h2 className="text-4xl md:text-5xl font-black text-white">
+        <h2 className="text-2xl font-black text-white sm:text-4xl md:text-5xl">
           COUNTDOWN
         </h2>
-
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-
+      <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-4 md:gap-6">
         {[
           { label: "Days", value: timeLeft.days },
           { label: "Hours", value: timeLeft.hours },
@@ -66,20 +72,18 @@ export default function Countdown() {
         ].map((item) => (
           <div
             key={item.label}
-            className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl transition duration-300 hover:-translate-y-2 hover:border-red-500/40 hover:shadow-red-500/30"
+            className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-red-500/40 hover:shadow-red-500/30 sm:rounded-3xl sm:p-6 lg:p-8"
           >
-            <h2 className="text-5xl md:text-6xl font-black text-red-500">
+            <h2 className="text-3xl font-black text-red-500 sm:text-5xl md:text-6xl">
               {String(item.value).padStart(2, "0")}
             </h2>
 
-            <p className="mt-4 uppercase tracking-[4px] text-zinc-300 font-semibold">
+            <p className="mt-2 text-xs font-semibold uppercase tracking-[2px] text-zinc-300 sm:mt-4 sm:text-sm sm:tracking-[4px]">
               {item.label}
             </p>
           </div>
         ))}
-
       </div>
-
     </section>
   );
 }
