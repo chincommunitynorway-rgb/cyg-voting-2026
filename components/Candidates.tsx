@@ -21,7 +21,7 @@ export default function Candidates() {
         <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-red-600 sm:mt-6 sm:w-28"></div>
       </div>
 
-      <div className="grid gap-5 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
         {missCandidates.map((candidate) => (
           <CandidateCard
             key={candidate.id}
@@ -45,7 +45,7 @@ export default function Candidates() {
         <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-blue-500 sm:mt-6 sm:w-28"></div>
       </div>
 
-      <div className="grid gap-5 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
         {mrCandidates.map((candidate) => (
           <CandidateCard
             key={candidate.id}
