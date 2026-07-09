@@ -28,31 +28,31 @@ export default function CandidateCard(props: Props) {
           <img
             src={props.image}
             alt={props.name}
-            className="h-[280px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[380px] lg:h-[470px]"
+            className="h-[220px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[320px] lg:h-[470px]"
           />
 
-          <span className="absolute left-3 top-3 rounded-full bg-red-600 px-3 py-1 text-xs font-bold text-white shadow-lg sm:left-4 sm:top-4 sm:px-4 sm:py-2 sm:text-sm">
+          <span className="absolute left-2 top-2 rounded-full bg-red-600 px-2 py-1 text-[10px] font-bold text-white shadow-lg sm:left-4 sm:top-4 sm:px-4 sm:py-2 sm:text-sm">
             {props.title}
           </span>
         </div>
 
         {/* CONTENT */}
-        <div className="p-4 sm:p-5 lg:p-6">
-          <h2 className="text-xl font-black text-white sm:text-3xl lg:text-4xl">
+        <div className="p-3 sm:p-5 lg:p-6">
+          <h2 className="text-base font-black leading-tight text-white sm:text-2xl lg:text-4xl">
             {props.name}
           </h2>
 
-          <div className="mt-3 space-y-2 text-sm text-gray-300 sm:mt-5 sm:text-base">
+          <div className="mt-2 space-y-1 text-xs text-gray-300 sm:mt-4 sm:text-sm lg:text-base">
             <p>📍 {props.city}</p>
             <p>🎂 {props.age} years</p>
             <p>🏠 {props.khua}</p>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2 sm:mt-5">
+          <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
             {props.hobbies.map((hobby) => (
               <span
                 key={hobby}
-                className="rounded-full bg-red-600/20 px-2.5 py-1 text-xs text-red-300 sm:px-3 sm:text-sm"
+                className="rounded-full bg-red-600/20 px-2 py-1 text-[10px] text-red-300 sm:px-3 sm:text-xs lg:text-sm"
               >
                 {hobby}
               </span>
@@ -60,18 +60,19 @@ export default function CandidateCard(props: Props) {
           </div>
 
           {/* BUTTONS */}
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:mt-8 sm:grid-cols-2">
+          <div className="mt-4 grid grid-cols-1 gap-2 sm:mt-6 sm:grid-cols-2 sm:gap-3">
             <button
               onClick={() => setOpen(true)}
-              className="rounded-xl border border-white py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black sm:text-base"
+              className="rounded-xl border border-white py-2.5 text-xs font-semibold text-white transition hover:bg-white hover:text-black sm:py-3 sm:text-sm lg:text-base"
             >
               View Profile
             </button>
 
-            <Link href={`/vote?type=${props.type}&id=${props.id}`}>
-              <button className="w-full rounded-xl bg-red-600 py-3 text-sm font-bold text-white transition hover:bg-red-700 sm:text-base">
-                Vote ❤️
-              </button>
+            <Link
+              href={`/vote?type=${props.type}&id=${props.id}`}
+              className="w-full rounded-xl bg-red-600 py-2.5 text-center text-xs font-bold text-white transition hover:bg-red-700 sm:py-3 sm:text-sm lg:text-base"
+            >
+              Vote ❤️
             </Link>
           </div>
         </div>
