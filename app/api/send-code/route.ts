@@ -6,19 +6,21 @@ export async function POST(req: Request) {
   try {
     const { email, phone } = await req.json();
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const code = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
 
     const expiresAt = new Date(
       Date.now() + 10 * 60 * 1000
     ).toISOString();
 
-    // Slett eventuell gammel kode
+    // Delete any existing code
     await supabase
       .from("verification_codes")
       .delete()
       .eq("email", email);
 
-    // Lagre ny kode
+    // Save new code
     const { error } = await supabase
       .from("verification_codes")
       .insert({
@@ -35,21 +37,38 @@ export async function POST(req: Request) {
       );
     }
 
-    // Send e-post
+    // Send email
     const { error: emailError } = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "CYG Voting <noreply@norwaychin.no>",
       to: email,
       subject: "CYG Voting Verification Code",
       html: `
-        <h2>CYG Voting 2026</h2>
+        <div style="font-family:Arial,sans-serif;padding:20px">
+          <h2>❤️ CYG Voting 2026</h2>
 
-        <p>Your verification code is:</p>
+          <p>Your verification code is:</p>
 
-        <h1 style="letter-spacing:6px;">
-          ${code}
-        </h1>
+          <h1 style="
+            font-size:42px;
+            letter-spacing:8px;
+            color:#dc2626;
+            margin:20px 0;
+          ">
+            ${code}
+          </h1>
 
-        <p>This code expires in 10 minutes.</p>
+          <p>
+            This verification code expires in
+            <strong>10 minutes</strong>.
+          </p>
+
+          <hr style="margin:30px 0">
+
+          <p style="color:#666;font-size:14px">
+            If you did not request this code,
+            you can safely ignore this email.
+          </p>
+        </div>
       `,
     });
 
@@ -64,7 +83,9 @@ export async function POST(req: Request) {
       success: true,
     });
 
-  } catch {
+  } catch (error) {
+    console.error(error);
+
     return NextResponse.json(
       { error: "Server error." },
       { status: 500 }
