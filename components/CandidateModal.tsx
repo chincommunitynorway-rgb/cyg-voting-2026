@@ -52,24 +52,23 @@ export default function CandidateModal({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fadeIn"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-3 backdrop-blur-sm animate-fadeIn sm:p-4"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-6xl overflow-hidden rounded-3xl bg-zinc-900 border border-zinc-700 shadow-2xl"
+        className="relative max-h-[95vh] w-full max-w-6xl overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900 shadow-2xl sm:rounded-3xl"
       >
         {/* Close */}
         <button
           onClick={onClose}
-          className="absolute right-5 top-5 z-50 h-10 w-10 rounded-full bg-white text-black text-xl font-bold hover:bg-red-600 hover:text-white transition"
+          className="absolute right-3 top-3 z-50 flex h-9 w-9 items-center justify-center rounded-full bg-white text-lg font-bold text-black transition hover:bg-red-600 hover:text-white sm:right-5 sm:top-5 sm:h-10 sm:w-10 sm:text-xl"
         >
           ✕
         </button>
 
         <div className="grid lg:grid-cols-2">
-
           {/* IMAGE */}
-          <div className="relative h-[450px] lg:h-[700px]">
+          <div className="relative h-[260px] sm:h-[350px] lg:h-[700px]">
             <Image
               src={candidate.image}
               alt={candidate.name}
@@ -80,18 +79,16 @@ export default function CandidateModal({
           </div>
 
           {/* CONTENT */}
-          <div className="overflow-y-auto p-10 max-h-[700px]">
-
-            <span className="rounded-full bg-red-600 px-5 py-2 text-sm font-bold uppercase tracking-widest text-white">
+          <div className="max-h-[60vh] overflow-y-auto p-5 sm:max-h-[700px] sm:p-8 lg:p-10">
+            <span className="rounded-full bg-red-600 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white sm:px-5 sm:py-2 sm:text-sm">
               {candidate.title}
             </span>
 
-            <h1 className="mt-6 text-5xl font-black text-white">
+            <h1 className="mt-4 text-3xl font-black text-white sm:mt-6 sm:text-4xl lg:text-5xl">
               {candidate.name}
             </h1>
 
-            <div className="mt-8 space-y-4 text-lg text-gray-300">
-
+            <div className="mt-6 space-y-3 text-sm text-gray-300 sm:mt-8 sm:space-y-4 sm:text-base lg:text-lg">
               <p>
                 📍 <span className="font-semibold">{candidate.city}</span>
               </p>
@@ -103,49 +100,42 @@ export default function CandidateModal({
               <p>
                 🏠 <span className="font-semibold">{candidate.khua}</span>
               </p>
-
             </div>
 
-            <div className="mt-10">
-
-              <h2 className="mb-4 text-2xl font-bold text-white">
+            <div className="mt-8 sm:mt-10">
+              <h2 className="mb-3 text-xl font-bold text-white sm:mb-4 sm:text-2xl">
                 ❤️ Hobbies
               </h2>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 {candidate.hobbies.map((hobby) => (
                   <span
                     key={hobby}
-                    className="rounded-full bg-red-600/20 px-4 py-2 text-red-300"
+                    className="rounded-full bg-red-600/20 px-3 py-1 text-sm text-red-300 sm:px-4 sm:py-2"
                   >
                     {hobby}
                   </span>
                 ))}
               </div>
-
             </div>
 
-            <div className="mt-10">
-
-              <h2 className="mb-4 text-2xl font-bold text-white">
+            <div className="mt-8 sm:mt-10">
+              <h2 className="mb-3 text-xl font-bold text-white sm:mb-4 sm:text-2xl">
                 📖 About
               </h2>
 
-              <div className="rounded-2xl bg-zinc-800 p-6 text-gray-300 leading-8">
+              <div className="rounded-xl bg-zinc-800 p-4 text-sm leading-7 text-gray-300 sm:rounded-2xl sm:p-6 sm:text-base sm:leading-8">
                 {candidate.caption ??
                   "More information about this contestant will be available soon."}
               </div>
-
             </div>
 
             <Link href={`/vote?type=${type}&id=${candidate.id}`}>
-              <button className="mt-10 w-full rounded-2xl bg-red-600 py-5 text-xl font-bold text-white transition hover:bg-red-700 hover:scale-[1.02]">
+              <button className="mt-8 w-full rounded-xl bg-red-600 py-3 text-base font-bold text-white transition hover:bg-red-700 sm:mt-10 sm:rounded-2xl sm:py-4 sm:text-lg lg:py-5 lg:text-xl">
                 ❤️ Vote for {candidate.name}
               </button>
             </Link>
-
           </div>
-
         </div>
       </div>
     </div>

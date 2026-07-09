@@ -168,18 +168,20 @@ export default function VoteForm() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-20">
+  <main className="mx-auto max-w-7xl px-4 md:px-6 py-10 md:py-20">
 
-      <h1 className="mb-12 text-center text-5xl font-black text-white">
-        ❤️ Cast Your Vote
-      </h1>
+    <h1 className="mb-8 md:mb-12 text-center text-3xl md:text-5xl font-black text-white leading-tight">
+      ❤️ Cast Your Vote
+    </h1>
 
-      <CandidateSelector
-        selectedMiss={selectedMiss}
-        selectedMr={selectedMr}
-        setSelectedMiss={setSelectedMiss}
-        setSelectedMr={setSelectedMr}
-      />
+    <CandidateSelector
+      selectedMiss={selectedMiss}
+      selectedMr={selectedMr}
+      setSelectedMiss={setSelectedMiss}
+      setSelectedMr={setSelectedMr}
+    />
+
+    <div className="mt-8 md:mt-14">
 
       <VerificationForm
         fullName={fullName}
@@ -197,6 +199,10 @@ export default function VoteForm() {
         onVerify={verifyCode}
       />
 
+    </div>
+
+    <div className="mt-8 md:mt-14">
+
       <VoteSummary
         selectedMiss={selectedMiss}
         selectedMr={selectedMr}
@@ -205,6 +211,8 @@ export default function VoteForm() {
         onSubmit={submitVote}
       />
 
-    </main>
-  );
+    </div>
+
+  </main>
+);
 }
