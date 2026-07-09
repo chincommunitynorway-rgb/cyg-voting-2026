@@ -33,35 +33,53 @@ export default function Countdown() {
             (1000 * 60)
         ),
         seconds: Math.floor(
-          (distance % (1000 * 60)) /
-            1000
+          (distance % (1000 * 60)) / 1000
         ),
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, []);
 
   return (
-    <section className="mt-16 flex justify-center gap-6 flex-wrap">
-      {[
-        { label: "Days", value: timeLeft.days },
-        { label: "Hours", value: timeLeft.hours },
-        { label: "Minutes", value: timeLeft.minutes },
-        { label: "Seconds", value: timeLeft.seconds },
-      ].map((item) => (
-        <div
-          key={item.label}
-          className="bg-red-600 rounded-2xl p-6 w-28 text-center shadow-xl"
-        >
-          <h2 className="text-4xl font-bold text-white">
-            {item.value}
-          </h2>
-          <p className="text-white uppercase text-sm mt-2 tracking-widest">
-            {item.label}
-          </p>
-        </div>
-      ))}
+    <section className="w-full">
+
+      <div className="text-center mb-10">
+
+        <p className="uppercase tracking-[8px] text-red-400 text-sm mb-3 font-semibold">
+          Voting closes in
+        </p>
+
+        <h2 className="text-4xl md:text-5xl font-black text-white">
+          COUNTDOWN
+        </h2>
+
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+        {[
+          { label: "Days", value: timeLeft.days },
+          { label: "Hours", value: timeLeft.hours },
+          { label: "Minutes", value: timeLeft.minutes },
+          { label: "Seconds", value: timeLeft.seconds },
+        ].map((item) => (
+          <div
+            key={item.label}
+            className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl transition duration-300 hover:-translate-y-2 hover:border-red-500/40 hover:shadow-red-500/30"
+          >
+            <h2 className="text-5xl md:text-6xl font-black text-red-500">
+              {String(item.value).padStart(2, "0")}
+            </h2>
+
+            <p className="mt-4 uppercase tracking-[4px] text-zinc-300 font-semibold">
+              {item.label}
+            </p>
+          </div>
+        ))}
+
+      </div>
+
     </section>
   );
 }

@@ -3,42 +3,61 @@ import { missCandidates, mrCandidates } from "../data/candidates";
 
 export default function Candidates() {
   return (
-    <section className="max-w-7xl mx-auto px-8 py-20">
-
+    <section
+      id="contestants"
+      className="max-w-7xl mx-auto px-6 py-24"
+    >
       {/* MISS */}
-      <h2 className="text-5xl font-bold text-center text-white mb-16">
-        MISS CONTESTANTS
-      </h2>
 
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="text-center mb-16">
+
+        <p className="uppercase tracking-[8px] text-red-500 mb-4 font-semibold">
+          CYG 2026
+        </p>
+
+        <h2 className="text-5xl md:text-6xl font-black text-white">
+          👑 MISS CONTESTANTS
+        </h2>
+
+        <div className="mx-auto mt-6 h-1 w-28 rounded-full bg-red-600"></div>
+
+      </div>
+
+      <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
         {missCandidates.map((candidate) => (
           <CandidateCard
             key={candidate.id}
-            id={candidate.id}
-            name={candidate.name}
-            image={candidate.image}
+            {...candidate}
             type="miss"
           />
         ))}
       </div>
 
       {/* MR */}
-      <h2 className="text-5xl font-bold text-center text-white mt-24 mb-16">
-        MR CONTESTANTS
-      </h2>
 
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="text-center mt-32 mb-16">
+
+        <p className="uppercase tracking-[8px] text-blue-500 mb-4 font-semibold">
+          CYG 2026
+        </p>
+
+        <h2 className="text-5xl md:text-6xl font-black text-white">
+          🤵 MR CONTESTANTS
+        </h2>
+
+        <div className="mx-auto mt-6 h-1 w-28 rounded-full bg-blue-500"></div>
+
+      </div>
+
+      <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
         {mrCandidates.map((candidate) => (
           <CandidateCard
             key={candidate.id}
-            id={candidate.id}
-            name={candidate.name}
-            image={candidate.image}
+            {...candidate}
             type="mr"
           />
         ))}
       </div>
-
     </section>
   );
 }

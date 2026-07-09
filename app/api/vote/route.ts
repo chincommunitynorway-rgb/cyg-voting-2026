@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
-import { supabase } from "../../../lib/supabase";
+import { supabase } from "@/lib/supabase";
+
+function generateReference() {
+  return (
+    "CYG-2026-" +
+    Math.floor(100000 + Math.random() * 900000)
+  );
+}
 
 export async function POST(request: Request) {
   try {
@@ -9,50 +16,115 @@ export async function POST(request: Request) {
       full_name,
       email,
       phone,
-      category,
-      candidate_id,
-      candidate_name,
+      miss_candidate_id,
+      miss_candidate_name,
+      mr_candidate_id,
+      mr_candidate_name,
     } = body;
 
-    // Sjekk om telefonnummer allerede har stemt i samme kategori
-    const { data: existingVote } = await supabase
-      .from("votes")
-      .select("id")
-      .eq("phone", phone)
-      .eq("category", category)
-      .maybeSingle();
-
-    if (existingVote) {
+    if (
+      !full_name ||
+      !email ||
+      !phone ||
+      !miss_candidate_id ||
+      !mr_candidate_id
+    ) {
       return NextResponse.json(
-        { error: "You have already voted in this category." },
+        {
+          error: "Missing required fields.",
+        },
         { status: 400 }
       );
     }
 
-    // Lagre stemmen
-    const { error } = await supabase.from("votes").insert({
-      full_name,
-      email,
-      phone,
-      category,
-      candidate_id,
-      candidate_name,
-    });
+    // Has this email already voted?
+    const { data: existingEmail } = await supabase
+      .from("votes")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (existingEmail) {
+      return NextResponse.json(
+        {
+          error: "This email has already voted.",
+        },
+        { status: 400 }
+      );
+    }
+
+    // Has this phone already voted?
+    const { data: existingPhone } = await supabase
+      .from("votes")
+      .select("id")
+      .eq("phone", phone)
+      .maybeSingle();
+
+    if (existingPhone) {
+      return NextResponse.json(
+        {
+          error: "This phone number has already voted.",
+        },
+        { status: 400 }
+      );
+    }
+
+    // Is the email verified?
+    const { data: verification } = await supabase
+      .from("verification_codes")
+      .select("*")
+      .eq("email", email)
+      .eq("verified", true)
+      .maybeSingle();
+
+    if (!verification) {
+      return NextResponse.json(
+        {
+          error: "Email has not been verified.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const reference = generateReference();
+
+    const { error } = await supabase
+      .from("votes")
+      .insert({
+        full_name,
+        email,
+        phone,
+
+        miss_candidate_id,
+        miss_candidate_name,
+
+        mr_candidate_id,
+        mr_candidate_name,
+
+        reference_number: reference,
+      });
 
     if (error) {
       return NextResponse.json(
-        { error: error.message },
+        {
+          error: error.message,
+        },
         { status: 500 }
       );
     }
 
     return NextResponse.json({
       success: true,
-      message: "Vote submitted successfully!",
+      reference,
     });
-  } catch {
+
+  } catch (err) {
+    console.error(err);
+
     return NextResponse.json(
-      { error: "Something went wrong." },
+      {
+        error: "Internal Server Error",
+      },
       { status: 500 }
     );
   }
